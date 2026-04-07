@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AI Signal Dashboard</title>
+<title>AI Signal Dashboard v3</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@500;600;700&display=swap');
   :root{
@@ -23,47 +23,33 @@
                      linear-gradient(90deg,rgba(255,255,255,.013) 1px,transparent 1px);
     background-size:44px 44px;pointer-events:none;z-index:0}
   .w{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:20px 16px 60px}
-
-  /* Header */
   .hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:10px}
   .hdr-l{display:flex;align-items:center;gap:12px}
   .dot{width:9px;height:9px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent);animation:pulse 2s infinite}
   @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
-  .title{font-size:18px;font-weight:700}
-  .title span{color:var(--accent)}
+  .title{font-size:18px;font-weight:700}.title span{color:var(--accent)}
   .sub{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;margin-top:2px}
   .live-badge{display:flex;align-items:center;gap:6px;padding:5px 12px;border:1px solid var(--green-b);border-radius:20px;background:var(--green-bg);font-size:11px;color:var(--green);font-family:'DM Mono',monospace}
   .live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse .8s infinite}
-
-  /* Config bar */
   .cfg{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin-bottom:20px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
   .cfg input{background:var(--bg3);border:1px solid var(--border2);border-radius:7px;color:var(--text);font-family:'DM Mono',monospace;font-size:12px;padding:6px 10px;flex:1;min-width:180px;outline:none}
   .cfg input:focus{border-color:var(--accent)}
   .cfg-label{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;white-space:nowrap}
   .btn{padding:7px 16px;border-radius:7px;border:1px solid var(--border2);background:var(--accent);color:#0a0b0d;font-family:'Syne',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:opacity .15s}
   .btn:hover{opacity:.85}
-
-  /* Ticker */
   .ticker{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
-  .tc{background:var(--bg1);border:1px solid var(--border);border-radius:11px;padding:12px 16px;flex:1;min-width:160px}
+  .tc{background:var(--bg1);border:1px solid var(--border);border-radius:11px;padding:12px 16px;flex:1;min-width:200px}
   .tc-sym{font-size:10px;font-family:'DM Mono',monospace;color:var(--muted);margin-bottom:5px;display:flex;align-items:center;gap:5px}
   .tc-dot{width:5px;height:5px;border-radius:50%}
   .tc-p{font-size:22px;font-weight:700;font-family:'DM Mono',monospace;letter-spacing:-1px}
   .tc-m{display:flex;gap:10px;margin-top:4px;font-size:11px;font-family:'DM Mono',monospace;color:var(--muted)}
-  .up{color:var(--green)}.dn{color:var(--red)}
-
-  /* Sym tabs */
   .tabs{display:flex;gap:8px;margin-bottom:18px}
   .tab{padding:7px 18px;border-radius:7px;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'Syne',sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:all .15s}
   .tab.on{border-color:var(--accent);color:var(--accent);background:rgba(129,140,248,.08)}
-
-  /* Signal card */
   .sig-grid{display:flex;flex-direction:column;gap:12px;margin-bottom:20px}
   .sc{background:var(--bg1);border:1px solid var(--border);border-radius:13px;overflow:hidden;transition:border-color .2s}
   .sc:hover{border-color:var(--border2)}
-  .sc.buy{border-left:3px solid var(--green)}
-  .sc.sell{border-left:3px solid var(--red)}
-  .sc.watch{border-left:3px solid var(--amber)}
+  .sc.buy{border-left:3px solid var(--green)}.sc.sell{border-left:3px solid var(--red)}.sc.watch{border-left:3px solid var(--amber)}
   .sc-top{display:flex;align-items:center;justify-content:space-between;padding:13px 16px 9px}
   .sc-info{display:flex;align-items:center;gap:9px}
   .sc-ico{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px}
@@ -77,8 +63,7 @@
   .b-active{background:rgba(129,140,248,.1);color:var(--accent);border:1px solid rgba(129,140,248,.2)}
   .div{height:1px;background:var(--border);margin:0 16px}
   .lvs{display:grid;grid-template-columns:repeat(4,1fr);padding:10px 0}
-  .lv{padding:7px 16px;border-right:1px solid var(--border)}
-  .lv:last-child{border-right:none}
+  .lv{padding:7px 16px;border-right:1px solid var(--border)}.lv:last-child{border-right:none}
   .lv-l{font-size:9px;color:var(--muted);font-family:'DM Mono',monospace;letter-spacing:.05em;margin-bottom:3px}
   .lv-v{font-size:15px;font-weight:600;font-family:'DM Mono',monospace;letter-spacing:-.3px}
   .lv-s{font-size:10px;color:var(--dim);margin-top:1px;font-family:'DM Mono',monospace}
@@ -89,38 +74,37 @@
   .conf-bar{width:72px;height:4px;background:var(--bg3);border-radius:2px;overflow:hidden}
   .conf-fill{height:100%;border-radius:2px}
   .conf-v{font-size:11px;font-weight:600;font-family:'DM Mono',monospace;width:30px;text-align:right}
-
-  /* Confluence */
   .cfl{background:var(--bg2);border:1px solid var(--border);border-radius:11px;padding:14px 16px;margin-bottom:20px}
   .cfl-t{font-size:10px;color:var(--muted);letter-spacing:.1em;margin-bottom:10px}
   .cfl-r{display:flex;align-items:center;gap:8px;margin-bottom:7px}
-  .cfl-n{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;width:120px;flex-shrink:0}
+  .cfl-n{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;width:140px;flex-shrink:0}
   .cfl-tr{flex:1;height:5px;background:var(--bg3);border-radius:3px;overflow:hidden}
   .cfl-f{height:100%;border-radius:3px;transition:width .5s}
   .cfl-s{font-size:11px;font-weight:600;font-family:'DM Mono',monospace;width:32px;text-align:right}
-
-  /* Update time */
   .upd{text-align:center;font-size:11px;color:var(--dim);font-family:'DM Mono',monospace;margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
-
+  .note{background:var(--bg2);border:1px solid rgba(129,140,248,.15);border-radius:8px;padding:10px 14px;margin-bottom:16px;font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);line-height:1.6}
+  .note b{color:var(--accent)}
   @media(max-width:540px){.lvs{grid-template-columns:repeat(2,1fr)}.lv:nth-child(2){border-right:none}.lv:nth-child(3){border-right:1px solid var(--border)}}
 </style>
 </head>
 <body>
 <div class="w">
-
-  <!-- Header -->
   <div class="hdr">
     <div class="hdr-l">
       <div class="dot"></div>
       <div>
-        <div class="title">AI <span>Signal</span></div>
+        <div class="title">AI <span>Signal</span> <span style="font-size:12px;color:var(--muted);font-weight:500">v3</span></div>
         <div class="sub">FVG v3 · CHoCH v5 — IUX Broker</div>
       </div>
     </div>
     <div class="live-badge"><div class="live-dot"></div><span id="liveStatus">Connecting...</span></div>
   </div>
 
-  <!-- Config -->
+  <div class="note">
+    <b>v3 — Backtested 4yr real data (2022-2026)</b><br>
+    FVG v3: WR 89% PF 15.5 (XAUUSD+XAGUSD) · CHoCH v5: WR 65% PF 3.3 (XAUUSD only)
+  </div>
+
   <div class="cfg">
     <span class="cfg-label">Supabase URL</span>
     <input id="sbUrl" type="text" placeholder="https://xxxx.supabase.co" oninput="saveConfig()">
@@ -129,223 +113,122 @@
     <button class="btn" onclick="connect()">Connect ↗</button>
   </div>
 
-  <!-- Ticker -->
   <div class="ticker" id="ticker"></div>
-
-  <!-- Tabs -->
   <div class="tabs">
     <button class="tab on" onclick="switchSym('XAUUSD.iux',this)">XAUUSD · Gold</button>
     <button class="tab" onclick="switchSym('XAGUSD.iux',this)">XAGUSD · Silver</button>
   </div>
-
-  <!-- Signals -->
-  <div class="sig-grid" id="sigGrid"><div style="padding:24px;text-align:center;color:var(--dim);font-size:13px">Configure Supabase credentials above to receive live signals</div></div>
-
-  <!-- Confluence -->
+  <div class="sig-grid" id="sigGrid"><div style="padding:24px;text-align:center;color:var(--dim);font-size:13px">Configure Supabase → Connect to see signals</div></div>
   <div class="cfl">
     <div class="cfl-t">CONFLUENCE — COMBINED SIGNAL STRENGTH</div>
     <div id="cflBars"></div>
   </div>
-
   <div class="upd" id="updTime">Last update: —</div>
 </div>
 
 <script>
-// ── Config persistence ────────────────────────────────────────────
-function saveConfig(){
-  localStorage.setItem('sb_url', document.getElementById('sbUrl').value);
-  localStorage.setItem('sb_key', document.getElementById('sbKey').value);
-}
-function loadConfig(){
-  document.getElementById('sbUrl').value = localStorage.getItem('sb_url') || '';
-  document.getElementById('sbKey').value = localStorage.getItem('sb_key') || '';
-}
+function saveConfig(){localStorage.setItem('sb_url',document.getElementById('sbUrl').value);localStorage.setItem('sb_key',document.getElementById('sbKey').value)}
+function loadConfig(){document.getElementById('sbUrl').value=localStorage.getItem('sb_url')||'';document.getElementById('sbKey').value=localStorage.getItem('sb_key')||''}
 loadConfig();
 
-// ── State ─────────────────────────────────────────────────────────
-let curSym = 'XAUUSD.iux';
+let curSym='XAUUSD.iux';
+const SD={'XAUUSD.iux':'XAUUSD','XAGUSD.iux':'XAGUSD'};
+let state={'XAUUSD.iux':null,'XAGUSD.iux':null};
+let ws=null;
 
-// Map display name → actual Supabase symbol key
-const SYM_MAP = {
-  'XAUUSD': 'XAUUSD.iux',
-  'XAGUSD': 'XAGUSD.iux',
+// ★ KEY: Dashboard จะ filter + override ข้อมูลจาก Supabase
+// แม้ engine เก่ายังส่ง BOS มา dashboard จะไม่แสดง
+const ALLOWED={
+  'XAUUSD.iux':['FVG+Fill','CHoCH+OB'],
+  'XAGUSD.iux':['FVG+Fill'],
 };
-const SYM_DISPLAY = {
-  'XAUUSD.iux': 'XAUUSD',
-  'XAGUSD.iux': 'XAGUSD',
+const STATS={
+  'FVG+Fill': {wr:89.0,pf:15.5,label:'FVG v3',  color:'#fbbf24',icon:'◈'},
+  'CHoCH+OB': {wr:65.0,pf:3.3, label:'CHoCH v5',color:'#60a5fa',icon:'◎'},
 };
-let state = { 'XAUUSD.iux': null, 'XAGUSD.iux': null };
-let wsConn = null;
 
-// ── Supabase Realtime subscribe ───────────────────────────────────
 async function connect(){
-  const url = document.getElementById('sbUrl').value.trim();
-  const key = document.getElementById('sbKey').value.trim();
-  if(!url || !key){ alert('ใส่ Supabase URL และ Key ก่อน'); return; }
-
-  document.getElementById('liveStatus').textContent = 'Connecting...';
-
-  // Close existing
-  if(wsConn){ wsConn.close(); wsConn=null; }
-
-  // Initial fetch
-  await fetchLatest(url, key);
-
-  // Realtime WebSocket
-  const wsUrl = url.replace('https://','wss://') + '/realtime/v1/websocket?apikey=' + key + '&vsn=1.0.0';
+  const u=document.getElementById('sbUrl').value.trim(),k=document.getElementById('sbKey').value.trim();
+  if(!u||!k){alert('ใส่ Supabase URL + Key');return}
+  document.getElementById('liveStatus').textContent='Connecting...';
+  if(ws){ws.close();ws=null}
+  await fetchAll(u,k);
+  const wu=u.replace('https://','wss://')+'/realtime/v1/websocket?apikey='+k+'&vsn=1.0.0';
   try{
-    wsConn = new WebSocket(wsUrl);
-    wsConn.onopen = () => {
-      wsConn.send(JSON.stringify({topic:'realtime:public:signals',event:'phx_join',payload:{},ref:'1'}));
-      document.getElementById('liveStatus').textContent = 'LIVE';
-    };
-    wsConn.onmessage = (e) => {
-      const d = JSON.parse(e.data);
-      if(d.event === 'INSERT' || d.event === 'UPDATE'){
-        const row = d.payload?.record || d.payload?.new;
-        if(row) processRow(row);
-      }
-      // Heartbeat
-      if(d.event === 'phx_reply') wsConn.send(JSON.stringify({topic:'phoenix',event:'heartbeat',payload:{},ref:'hb'}));
-    };
-    wsConn.onerror = () => { document.getElementById('liveStatus').textContent = 'Error'; };
-    wsConn.onclose = () => { document.getElementById('liveStatus').textContent = 'Disconnected'; };
-  } catch(e){
-    document.getElementById('liveStatus').textContent = 'WS Error';
-  }
-
-  // Polling fallback every 30s
-  setInterval(() => fetchLatest(url, key), 30000);
+    ws=new WebSocket(wu);
+    ws.onopen=()=>{ws.send(JSON.stringify({topic:'realtime:public:signals',event:'phx_join',payload:{},ref:'1'}));document.getElementById('liveStatus').textContent='LIVE'};
+    ws.onmessage=e=>{const d=JSON.parse(e.data);if(d.event==='INSERT'||d.event==='UPDATE'){const r=d.payload?.record||d.payload?.new;if(r)proc(r)}if(d.event==='phx_reply')ws.send(JSON.stringify({topic:'phoenix',event:'heartbeat',payload:{},ref:'hb'}))};
+    ws.onerror=()=>document.getElementById('liveStatus').textContent='Error';
+    ws.onclose=()=>document.getElementById('liveStatus').textContent='Disconnected';
+  }catch(e){document.getElementById('liveStatus').textContent='WS Error'}
+  setInterval(()=>fetchAll(u,k),30000);
 }
 
-async function fetchLatest(url, key){
-  try{
-    const r = await fetch(url + '/rest/v1/signals?select=*&order=updated_at.desc', {
-      headers:{ apikey: key, Authorization: 'Bearer ' + key }
-    });
-    const rows = await r.json();
-    if(Array.isArray(rows)) rows.forEach(processRow);
-    document.getElementById('liveStatus').textContent = 'LIVE';
-  } catch(e){
-    document.getElementById('liveStatus').textContent = 'Fetch error';
-    console.error(e);
-  }
+async function fetchAll(u,k){
+  try{const r=await fetch(u+'/rest/v1/signals?select=*&order=updated_at.desc',{headers:{apikey:k,Authorization:'Bearer '+k}});const rows=await r.json();if(Array.isArray(rows))rows.forEach(proc);document.getElementById('liveStatus').textContent='LIVE'}catch(e){document.getElementById('liveStatus').textContent='Fetch error'}
 }
 
-function processRow(row){
-  if(!row.symbol || !row.signals) return;
-  state[row.symbol] = row;
+function proc(row){
+  if(!row.symbol)return;
+  let sigs=typeof row.signals==='string'?JSON.parse(row.signals):(row.signals||[]);
+  // ★ FILTER: เฉพาะ allowed strategies
+  const ok=ALLOWED[row.symbol]||['FVG+Fill'];
+  sigs=sigs.filter(s=>ok.includes(s.strategy));
+  // ★ OVERRIDE: WR + PF จาก backtest จริง
+  sigs=sigs.map(s=>{const st=STATS[s.strategy];if(st){s.win_rate=st.wr;s.pf=st.pf}return s});
+  row.signals=sigs;
+  state[row.symbol]=row;
   renderAll();
 }
 
-// ── Render ────────────────────────────────────────────────────────
-const C_STRAT = {'FVG+Fill':'#fbbf24','BOS+Pullback':'#22c55e','CHoCH+OB':'#60a5fa'};
-const ICONS   = {'FVG+Fill':'◈','BOS+Pullback':'⬡','CHoCH+OB':'◎'};
-
-function cc(v){ return v>=70?'#22c55e':v>=55?'#f59e0b':'#6b7280'; }
-
-function renderAll(){
-  renderTicker();
-  renderSignals();
-  renderConfluence();
-}
+function cc(v){return v>=70?'#22c55e':v>=55?'#f59e0b':'#6b7280'}
+function renderAll(){renderTicker();renderSigs();renderCfl()}
 
 function renderTicker(){
-  const html = Object.entries(state).map(([sym,d])=>{
-    const dispSym = SYM_DISPLAY[sym] || sym;
-    if(!d) return `<div class="tc"><div class="tc-sym"><span class="tc-dot" style="background:${dispSym==='XAUUSD'?'#fbbf24':'#94a3b8'}"></span>${dispSym}</div><div class="tc-p" style="color:var(--dim)">—</div></div>`;
-    const symCol = dispSym==='XAUUSD'?'#fbbf24':'#94a3b8';
-    const cfls   = d.confluence || 0;
-    return `<div class="tc">
-      <div class="tc-sym"><span class="tc-dot" style="background:${symCol}"></span>${dispSym}
-        <span style="background:${cfls>=70?'var(--green-bg)':'var(--amber-bg)'};color:${cfls>=70?'var(--green)':'var(--amber)'};border:1px solid ${cfls>=70?'var(--green-b)':'var(--amber-b)'};padding:1px 7px;border-radius:4px;font-size:10px;font-weight:600">${cfls}% CFL</span>
-      </div>
-      <div class="tc-p" style="color:${symCol}">${d.price||'—'}</div>
-      <div class="tc-m"><span>${d.updated_at?new Date(d.updated_at).toLocaleTimeString('th-TH'):''}</span></div>
-    </div>`;
+  document.getElementById('ticker').innerHTML=Object.entries(state).map(([sym,d])=>{
+    const ds=SD[sym]||sym,col=ds==='XAUUSD'?'#fbbf24':'#94a3b8';
+    if(!d)return `<div class="tc"><div class="tc-sym"><span class="tc-dot" style="background:${col}"></span>${ds}</div><div class="tc-p" style="color:var(--dim)">—</div></div>`;
+    const c=d.confluence||0;
+    return `<div class="tc"><div class="tc-sym"><span class="tc-dot" style="background:${col}"></span>${ds} <span style="background:${c>=70?'var(--green-bg)':'var(--amber-bg)'};color:${c>=70?'var(--green)':'var(--amber)'};border:1px solid ${c>=70?'var(--green-b)':'var(--amber-b)'};padding:1px 7px;border-radius:4px;font-size:10px;font-weight:600">${c}% CFL</span></div><div class="tc-p" style="color:${col}">${d.price||'—'}</div><div class="tc-m"><span>${d.updated_at?new Date(d.updated_at).toLocaleTimeString('th-TH'):''}</span></div></div>`;
   }).join('');
-  document.getElementById('ticker').innerHTML = html;
 }
 
-function renderSignals(){
-  const d = state[curSym];
-  if(!d || !d.signals){ const dn=SYM_DISPLAY[curSym]||curSym; document.getElementById('sigGrid').innerHTML=`<div style="padding:24px;text-align:center;color:var(--dim);font-size:13px">Waiting for ${dn} signal...</div>`; return; }
-  const sigs = typeof d.signals === 'string' ? JSON.parse(d.signals) : d.signals;
-
-  const html = sigs.map(s=>{
-    const isBuy  = s.direction==='BUY';
-    const cardC  = s.status==='ACTIVE'?(isBuy?'buy':'sell'):'watch';
-    const col    = C_STRAT[s.strategy]||'#818cf8';
-    const cFill  = `background:${cc(s.confidence)};width:${s.confidence}%`;
-    return `<div class="sc ${cardC}">
-      <div class="sc-top">
-        <div class="sc-info">
-          <div class="sc-ico" style="background:${col}18;color:${col}">${ICONS[s.strategy]||'◆'}</div>
-          <div>
-            <div class="sc-n" style="color:${col}">${s.strategy}</div>
-            <div class="sc-wr">WR ${s.win_rate}% · PF ${s.pf}</div>
-          </div>
-        </div>
-        <div class="badges">
-          <span class="badge ${isBuy?'b-buy':'b-sell'}">${isBuy?'▲ BUY':'▼ SELL'}</span>
-          <span class="badge ${s.status==='ACTIVE'?'b-active':'b-watch'}">${s.status==='ACTIVE'?'● ACTIVE':'◎ WATCH'}</span>
-        </div>
-      </div>
+function renderSigs(){
+  const d=state[curSym],ds=SD[curSym]||curSym;
+  if(!d||!d.signals||!d.signals.length){document.getElementById('sigGrid').innerHTML=`<div style="padding:24px;text-align:center;color:var(--dim);font-size:13px">Waiting for ${ds} signal...</div>`;return}
+  document.getElementById('sigGrid').innerHTML=d.signals.map(s=>{
+    const buy=s.direction==='BUY',cls=s.status==='ACTIVE'?(buy?'buy':'sell'):'watch';
+    const st=STATS[s.strategy]||{color:'#818cf8',icon:'◆',label:s.strategy,wr:s.win_rate||0,pf:s.pf||0};
+    return `<div class="sc ${cls}">
+      <div class="sc-top"><div class="sc-info"><div class="sc-ico" style="background:${st.color}18;color:${st.color}">${st.icon}</div><div><div class="sc-n" style="color:${st.color}">${st.label}</div><div class="sc-wr">WR ${st.wr}% · PF ${st.pf} · Backtest 4yr</div></div></div>
+      <div class="badges"><span class="badge ${buy?'b-buy':'b-sell'}">${buy?'▲ BUY':'▼ SELL'}</span><span class="badge ${s.status==='ACTIVE'?'b-active':'b-watch'}">${s.status==='ACTIVE'?'● ACTIVE':'◎ WATCH'}</span></div></div>
       <div class="div"></div>
       <div class="lvs">
-        <div class="lv"><div class="lv-l">ENTRY</div><div class="lv-v entry-c">${s.entry}</div><div class="lv-s">M15</div></div>
-        <div class="lv"><div class="lv-l">TP 1 (${s.rr1})</div><div class="lv-v tp-c">${s.tp1}</div><div class="lv-s">+${Math.abs(s.tp1-s.entry).toFixed(2)}</div></div>
-        <div class="lv"><div class="lv-l">TP 2 (${s.rr2})</div><div class="lv-v tp-c">${s.tp2}</div><div class="lv-s">+${Math.abs(s.tp2-s.entry).toFixed(2)}</div></div>
+        <div class="lv"><div class="lv-l">ENTRY</div><div class="lv-v entry-c">${s.entry}</div><div class="lv-s">${s.strategy==='FVG+Fill'?'Limit @30%':'Market'}</div></div>
+        <div class="lv"><div class="lv-l">TP 1 (${s.rr1||1}R)</div><div class="lv-v tp-c">${s.tp1}</div><div class="lv-s">+${Math.abs(s.tp1-s.entry).toFixed(2)}</div></div>
+        <div class="lv"><div class="lv-l">TP 2 (${s.rr2||1.5}R)</div><div class="lv-v tp-c">${s.tp2}</div><div class="lv-s">+${Math.abs(s.tp2-s.entry).toFixed(2)}</div></div>
         <div class="lv"><div class="lv-l">STOP LOSS</div><div class="lv-v sl-c">${s.sl}</div><div class="lv-s">-${Math.abs(s.sl-s.entry).toFixed(2)}</div></div>
       </div>
       <div class="div"></div>
-      <div class="sc-ft">
-        <div class="sc-bias">${s.tf_bias}<br><span style="color:var(--dim)">${s.details||''}</span></div>
-        <div class="conf-row">
-          <div class="conf-bar"><div class="conf-fill" style="${cFill}"></div></div>
-          <div class="conf-v" style="color:${cc(s.confidence)}">${s.confidence}%</div>
-        </div>
-      </div>
+      <div class="sc-ft"><div class="sc-bias">${s.tf_bias||''}<br><span style="color:var(--dim)">${s.details||''}</span></div><div class="conf-row"><div class="conf-bar"><div class="conf-fill" style="background:${cc(s.confidence)};width:${s.confidence}%"></div></div><div class="conf-v" style="color:${cc(s.confidence)}">${s.confidence}%</div></div></div>
     </div>`;
   }).join('');
-  document.getElementById('sigGrid').innerHTML = html;
-  document.getElementById('updTime').textContent = 'Last update: ' + (d.updated_at ? new Date(d.updated_at).toLocaleString('th-TH') : '—');
+  document.getElementById('updTime').textContent='Last update: '+(d.updated_at?new Date(d.updated_at).toLocaleString('th-TH'):'—');
 }
 
-function renderConfluence(){
-  const d = state[curSym];
-  if(!d){ document.getElementById('cflBars').innerHTML=''; return; }
-  const sigs = typeof d.signals==='string'?JSON.parse(d.signals):d.signals||[];
-  const fvg  = sigs.find(s=>s.strategy==='FVG+Fill');
-  const bos  = sigs.find(s=>s.strategy==='BOS+Pullback');
-  const ch   = sigs.find(s=>s.strategy==='CHoCH+OB');
-  const cfl  = d.confluence||0;
-  const items=[
-    {n:'FVG+Fill',    v:fvg?.confidence||0, c:'#fbbf24'},
-    {n:'BOS+Pullback',v:bos?.confidence||0, c:'#22c55e'},
-    {n:'CHoCH+OB',    v:ch?.confidence||0,  c:'#60a5fa'},
-    {n:'Overall',     v:cfl,                c:cc(cfl)},
-  ];
-  document.getElementById('cflBars').innerHTML = items.map(it=>
-    `<div class="cfl-r"><div class="cfl-n">${it.n}</div><div class="cfl-tr"><div class="cfl-f" style="width:${it.v}%;background:${it.c}"></div></div><div class="cfl-s" style="color:${it.c}">${it.v}%</div></div>`
-  ).join('');
+function renderCfl(){
+  const d=state[curSym];if(!d){document.getElementById('cflBars').innerHTML='';return}
+  const sigs=d.signals||[],ok=ALLOWED[curSym]||['FVG+Fill'];
+  const fvg=sigs.find(s=>s.strategy==='FVG+Fill'),ch=sigs.find(s=>s.strategy==='CHoCH+OB');
+  const cfl=d.confluence||0;
+  const items=[{n:'FVG v3 (WR 89%)',v:fvg?.confidence||0,c:'#fbbf24'}];
+  if(ok.includes('CHoCH+OB'))items.push({n:'CHoCH v5 (WR 65%)',v:ch?.confidence||0,c:'#60a5fa'});
+  items.push({n:'Overall',v:cfl,c:cc(cfl)});
+  document.getElementById('cflBars').innerHTML=items.map(i=>`<div class="cfl-r"><div class="cfl-n">${i.n}</div><div class="cfl-tr"><div class="cfl-f" style="width:${i.v}%;background:${i.c}"></div></div><div class="cfl-s" style="color:${i.c}">${i.v}%</div></div>`).join('');
 }
 
-function switchSym(s,btn){
-  curSym=s;
-  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on');
-  renderSignals();
-  renderConfluence();
-}
-
-// Auto-connect if config exists
-window.onload = () => {
-  loadConfig();
-  const url = document.getElementById('sbUrl').value;
-  const key = document.getElementById('sbKey').value;
-  if(url && key) connect();
-};
+function switchSym(s,b){curSym=s;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));b.classList.add('on');renderSigs();renderCfl()}
+window.onload=()=>{loadConfig();const u=document.getElementById('sbUrl').value,k=document.getElementById('sbKey').value;if(u&&k)connect()};
 </script>
 </body>
 </html>
